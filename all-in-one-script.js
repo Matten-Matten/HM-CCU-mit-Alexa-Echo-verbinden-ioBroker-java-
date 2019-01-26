@@ -10,7 +10,7 @@ Multiroom_ID     = '34XXXXXXXXXXXXXXXXXXXXX5b';//<-<-<-<-<-<-<- hier die Multiro
 DEVICE_MULTIROOM = ('alexa2.' + DEVICE_INSTANCE + '.Echo-Devices.' + Multiroom_ID);
 DEVICE_ORT       = getState(DEVICE + '.Info.name').val;
 CLEAN_TIME       = 7200000;/*2 Stunden*/
-PLAYLIST         = 'Chemieka';//<-<-<-<-<-<-<- hier deine Amazon Music Playlist eintragen
+PLAYLIST         = 'meine Liste';//<-<-<-<-<-<-<- hier deine Amazon Music Playlist eintragen
 
 
 //#### HM SYS VAR ########
