@@ -84,7 +84,7 @@ on({id: new RegExp(DEVICE + '.Player\\.currentState' + "|" + DEVICE + '.Player\\
       setState(CCU_VAR_SHUFFLE, false);
       setState(CCU_VAR_PROGRESS, 0);
       setState(CCU_VAR_STATUS, 0);
-      setState(CCU_VAR_PICTURE, 'https://raw.githubusercontent.com/Matten-Matten/HM-CCU-mit-Alexa-Echo-verbinden-ioBroker-java-/master/alexa_graphic_gr.png');
+      setState(CCU_VAR_PICTURE, 'https://images-na.ssl-images-amazon.com/images/I/41VXGF76krL._AC_SX215_.jpg');
       console.log('Alexa ' + DEVICE_ORT + ' Werte nach 2 Stunden leeren');
     }
   }, CLEAN_TIME);
@@ -103,11 +103,11 @@ on({id: DEVICE + '.Player.miniArtUrl', change: "any"}, function (obj) {
   if (getState(DEVICE + '.Player.imageURL').val < '1') {
     setStateDelayed(CCU_VAR_PICTURE, (obj.state ? obj.state.val : ""), 200, false);
   } else if ((getState(DEVICE + '.Player.imageURL').val === '') && (getState(DEVICE + '.Player.miniArtUrl').val === '')) {
-	setState(CCU_VAR_PICTURE, 'https://raw.githubusercontent.com/Matten-Matten/HM-CCU-mit-Alexa-Echo-verbinden-ioBroker-java-/master/alexa_graphic_gr.png');  
+	setState(CCU_VAR_PICTURE, 'https://images-na.ssl-images-amazon.com/images/I/41VXGF76krL._AC_SX215_.jpg');  
         }
 });
 // nach Start Wert schreiben
-setState(CCU_VAR_PICTURE, 'https://raw.githubusercontent.com/Matten-Matten/HM-CCU-mit-Alexa-Echo-verbinden-ioBroker-java-/master/alexa_graphic_gr.png');
+setState(CCU_VAR_PICTURE, 'https://images-na.ssl-images-amazon.com/images/I/41VXGF76krL._AC_SX215_.jpg');
 console.log(String(DEVICE_ORT + ' Image URL übertragen Nach Programm Start'));
 
 /*++++++++++++ device MUTE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
