@@ -14,7 +14,7 @@ PLAYLIST         = 'meine Liste';//<-<-<-<-<-<-<- hier deine Amazon Music Playli
 
 
 //#### HM SYS VAR ########
-var CCU_VAR_SENDER, CCU_VAR_SENDER_INFO, CCU_VAR_NEXT_PREV, CCU_VAR_providerName, CCU_VAR_REPEAT, CCU_VAR_SHUFFLE, CCU_VAR_PROGRESS, CCU_VAR_STATUS, CCU_VAR_ONLINE, CCU_VAR_STATE, CCU_VAR_SENDER_LOGO, CCU_VAR_VOLUME;
+var CCU_VAR_SENDER, CCU_VAR_SENDER_INFO, CCU_VAR_NEXT_PREV, CCU_VAR_providerName, CCU_VAR_REPEAT, CCU_VAR_SHUFFLE, CCU_VAR_PROGRESS, CCU_VAR_STATUS, CCU_VAR_ONLINE, CCU_VAR_STATE, CCU_VAR_SENDER_LOGO, CCU_VAR_VOLUME, CCU_VAR_PICTURE;
 
 //Hier die Systemvariablen einfügen Namierung steht hinter den Variablen, das XXX mit dem Ort ersetzen.
 CCU_VAR_SENDER_INFO     = "hm-rega.0.12345"/*ALEXA_XXX_SENDER_INFO -> Zeichenkette*/;
@@ -29,6 +29,7 @@ CCU_VAR_ONLINE          = "hm-rega.0.12345"/*ALEXA_XXX_ONLINE -> Logikwert (onli
 CCU_VAR_STATE           = "hm-rega.0.12345"/*ALEXA_XXX_STATE -> Logikwert (true/false)*/;
 CCU_VAR_SENDER_LOGO     = "hm-rega.0.12345"/*ALEXA_XXX_SENDER_LOGO -> Zeichenkette*/; 
 CCU_VAR_VOLUME          = "hm-rega.0.12345"/*ALEXA_XXX_VOLUME -> Zahl (Minimalwert:0 / Maximalwert:100)*/;
+CCU_VAR_PICTURE          = "hm-rega.0.12345"/*ALEXA_XXX_PICTURE -> Zeichenkette*/;
 //CCU_VAR_                = '';
 
 
@@ -83,6 +84,7 @@ on({id: new RegExp(DEVICE + '.Player\\.currentState' + "|" + DEVICE + '.Player\\
       setState(CCU_VAR_SHUFFLE, false);
       setState(CCU_VAR_PROGRESS, 0);
       setState(CCU_VAR_STATUS, 0);
+      setState(CCU_VAR_PICTURE, 'https://raw.githubusercontent.com/Matten-Matten/HM-CCU-mit-Alexa-Echo-verbinden-ioBroker-java-/master/alexa_graphic_gr.png');
       console.log('Alexa ' + DEVICE_ORT + ' Werte nach 2 Stunden leeren');
     }
   }, CLEAN_TIME);
@@ -90,30 +92,22 @@ on({id: new RegExp(DEVICE + '.Player\\.currentState' + "|" + DEVICE + '.Player\\
 
 /*++++++++++++ IMAGE URL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
-    createState('alexa.Image.Alexa_' + DEVICE_ORT + '.Image_URL', {
-      read: true, 
-      write: true, 
-      desc: "LOGO,Image",
-      role: "Text",
-      type: "string", 
-      def: ""
-    });
-
-
 on({id: DEVICE + '.Player.imageURL'/*Huge image*/, change: "any"}, function (obj) {
   var value = obj.state.val;
   var oldValue = obj.oldState.val;
-  setState("javascript.0.alexa.Image.Alexa_" + DEVICE_ORT + ".Image_URL", (obj.state ? obj.state.val : ""), true);
+  setState(CCU_VAR_PICTURE, (obj.state ? obj.state.val : ""), false);
 });
 on({id: DEVICE + '.Player.miniArtUrl', change: "any"}, function (obj) {
   var value = obj.state.val;
   var oldValue = obj.oldState.val;
   if (getState(DEVICE + '.Player.imageURL').val < '1') {
-    setStateDelayed("javascript.0.alexa.Image.Alexa_" + DEVICE_ORT + ".Image_URL", (obj.state ? obj.state.val : ""), 200, true);
-  }
+    setStateDelayed(CCU_VAR_PICTURE, (obj.state ? obj.state.val : ""), 200, false);
+  } else if ((getState(DEVICE + '.Player.imageURL').val === '') && (getState(DEVICE + '.Player.miniArtUrl').val === '')) {
+	setState(CCU_VAR_PICTURE, 'https://raw.githubusercontent.com/Matten-Matten/HM-CCU-mit-Alexa-Echo-verbinden-ioBroker-java-/master/alexa_graphic_gr.png');  
+        }
 });
 // nach Start Wert schreiben
-setState("javascript.0.alexa.Image.Alexa_" + DEVICE_ORT + ".Image_URL", getState(DEVICE + '.Player.imageURL').val), true;
+setState(CCU_VAR_PICTURE, 'https://raw.githubusercontent.com/Matten-Matten/HM-CCU-mit-Alexa-Echo-verbinden-ioBroker-java-/master/alexa_graphic_gr.png');
 console.log(String(DEVICE_ORT + ' Image URL übertragen Nach Programm Start'));
 
 /*++++++++++++ device MUTE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
